@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>658176889574-3l86bh2i8a0qcu9b596n3c18hjdrsv69.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.658176889574-3l86bh2i8a0qcu9b596n3c18hjdrsv69</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>658176889574-6igb1m6n79317erqrhgrt6pftvm2k899.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBhmb5Ig2zy5xgKdB85dFb6DqTYk8C9uSs</string>
+	<key>GCM_SENDER_ID</key>
+	<string>658176889574</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.redditApplication.RunnerTests</string>
+	<key>PROJECT_ID</key>
+	<string>simtengu-flutter</string>
+	<key>STORAGE_BUCKET</key>
+	<string>simtengu-flutter.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:658176889574:ios:586995cc1806e8952a2127</string>
+	<key>DATABASE_URL</key>
+	<string>https://simtengu-flutter-default-rtdb.europe-west1.firebasedatabase.app</string>
+</dict>
+</plist>
