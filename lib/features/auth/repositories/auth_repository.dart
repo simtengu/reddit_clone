@@ -50,6 +50,7 @@ class AuthRepository {
       userModel = await getUserData(userCredential.user!.uid).first;
 
       if (userModel == null) {
+        final awardsList = Constants.awards.keys.toList();
         userModel = UserModel(
             name: userCredential.user!.displayName ?? 'No name',
             profilePic:
@@ -58,7 +59,7 @@ class AuthRepository {
             uid: userCredential.user!.uid,
             isAuthenticated: true,
             karma: 0,
-            awards: []);
+            awards: [...awardsList]);
 //create user in users collection in firebase.............
         await _users.doc(userModel.uid).set(userModel.toMap());
       }
@@ -71,9 +72,44 @@ class AuthRepository {
     }
   }
 
+
+
+
+
+
+
+    FutureEither<UserModel> signInAsGuest() async {
+    try {
+    final userCredential = await _auth.signInAnonymously();
+
+      
+      // userModel = await getUserData(userCredential.user!.uid).first;
+
+     
+       UserModel userModel = UserModel(
+            name: 'Guest',
+            profilePic:
+                 Constants.avatarDefault,
+            banner: Constants.bannerDefault,
+            uid: userCredential.user!.uid,
+            isAuthenticated: false,
+            karma: 0,
+            awards: []);
+//create user in users collection in firebase.............
+        await _users.doc(userModel.uid).set(userModel.toMap());
+      
+
+      return right(userModel);
+    } on FirebaseException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
   signOut() async {
-    await _auth.signOut();
     await _googleSignIn.signOut();
+    await _auth.signOut();
   }
 
   Stream<UserModel?> getUserData(String uid) {
