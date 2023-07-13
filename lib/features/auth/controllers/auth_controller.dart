@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:reddit_application/core/providers/firebase_providers.dart';
 import 'package:reddit_application/core/utilities.dart';
 import 'package:reddit_application/features/auth/repositories/auth_repository.dart';
 import 'package:reddit_application/models/user_model.dart';
@@ -23,6 +24,30 @@ final authStateChangeProvider = StreamProvider((ref) {
   return authController.authStateChange;
 });
 
+final authUserProvider = FutureProvider((ref) async {
+  final authController = ref.watch(authControllerProvider.notifier);
+  final authUser = ref.watch(authProvider).currentUser!;
+ final rs = await authController.getUserData(authUser.uid).first;
+  ref.read(userProvider.notifier).update((state) => rs);
+  return rs;
+  // final myStream = authController.authStateChange;
+
+  // UserModel? userModel;
+  // myStream.first.then((value) async {
+  //   if (value != null) {
+  //     userModel = await ref
+  //         .watch(authControllerProvider.notifier)
+  //         .getUserData(value.uid)
+  //         .first;
+  //   print('value-usermodel $userModel');
+
+  //   }
+  // });
+
+  // print('user model : $userModel');
+  // return Stream.value(userModel);
+});
+
 final getUserDataProvider = StreamProvider.family((ref, String uid) {
   final authController = ref.watch(authControllerProvider.notifier);
   return authController.getUserData(uid);
@@ -38,9 +63,9 @@ class AuthController extends StateNotifier<bool> {
 
   Stream<User?> get authStateChange => _authRepository.authStateChange;
 
-  void signInWithGoogle(BuildContext context) async {
+  void signInWithGoogle(BuildContext context, isFromLogin) async {
     state = true;
-    final user = await _authRepository.signInWithGoogle();
+    final user = await _authRepository.signInWithGoogle(isFromLogin);
     state = false;
     user.fold((l) {
       return showSnackBar(context, l.message);

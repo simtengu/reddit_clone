@@ -31,20 +31,30 @@ class AuthRepository {
         _auth = auth,
         _googleSignIn = googleSignIn;
 
+        
+
   CollectionReference get _users =>
       _firestore.collection(FirebaseConstants.usersCollection);
 
   Stream<User?> get authStateChange => _auth.authStateChanges();
 
-  FutureEither<UserModel> signInWithGoogle() async {
+  FutureEither<UserModel> signInWithGoogle(bool isFromLogin) async {
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       final googleAuth = await googleUser?.authentication;
       final credential = GoogleAuthProvider.credential(
           accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
 
-      UserCredential userCredential =
+
+UserCredential userCredential;
+if (isFromLogin) {
+   userCredential =
           await _auth.signInWithCredential(credential);
+} else {
+   userCredential =
+          await _auth.currentUser!.linkWithCredential(credential);
+}
+      
 
       UserModel? userModel;
       userModel = await getUserData(userCredential.user!.uid).first;

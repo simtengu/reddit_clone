@@ -11,6 +11,7 @@ import 'package:reddit_application/features/posts/screens/comment_screen.dart';
 import 'package:reddit_application/features/user_profile/screens/edit_profile_screen.dart';
 import 'package:routemaster/routemaster.dart';
 import 'features/community/screens/community_screen.dart';
+import 'features/home/screens/initial_screen.dart';
 import 'features/user_profile/screens/user_profile_screen.dart';
 
 final loggedOutRoute = RouteMap(routes: {
@@ -20,7 +21,7 @@ final loggedOutRoute = RouteMap(routes: {
 //loggedin ...................
 
 final loggedInRoute = RouteMap(routes: {
-  '/': (_) => const MaterialPage(child: HomeScreen()),
+  '/': (_) => const MaterialPage(child: InitialScreen()),
   '/create-community': (_) =>
       const MaterialPage(child: CreateCommunityScreen()),
   '/r/:name': (routeData) => MaterialPage(

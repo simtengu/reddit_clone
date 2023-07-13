@@ -52,7 +52,7 @@ class _MyAppState extends ConsumerState<MyApp> {
             routerDelegate: RoutemasterDelegate(routesBuilder: (context) {
               print('fetched data $data');
               if (data != null) {
-                getData(ref, data);
+                // getData(ref, data);
 
                 
                   return loggedInRoute;

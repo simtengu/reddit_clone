@@ -7,8 +7,6 @@ import 'package:reddit_application/features/posts/controllers/posts_controller.d
 import 'package:reddit_application/features/posts/widgets/comment_card.dart';
 import 'package:reddit_application/theme/pallete.dart';
 
-import '../../../models/post_model.dart';
-
 class CommentScreen extends ConsumerStatefulWidget {
   const CommentScreen({super.key, required this.postId});
   final String postId;

@@ -39,6 +39,11 @@ final userPostsProvider = StreamProvider((ref) {
   return postController.getUserPosts();
 });
 
+final guestPostsProvider = StreamProvider((ref) {
+  final postController = ref.watch(postsControllerProvider.notifier);
+  return postController.fetchGuestPosts();
+});
+
 final getPostByIdProvider = StreamProvider.family((ref, String postId) {
   final postController = ref.watch(postsControllerProvider.notifier);
   return postController.getPostById(postId);
@@ -184,6 +189,14 @@ class PostsController extends StateNotifier<bool> {
     return Stream.value([]);
   }
 
+
+  Stream<List<Post>> fetchGuestPosts() {
+   
+      return _postsRepo.fetchGuestPosts();
+    
+
+  
+  }
 //delete the post..................
   void deletePost(BuildContext context, Post post) async {
     final res = await _postsRepo.deletePost(post);

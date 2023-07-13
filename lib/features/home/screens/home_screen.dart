@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reddit_application/core/constants/constants.dart';
+import 'package:reddit_application/core/providers/firebase_providers.dart';
 import 'package:reddit_application/features/auth/controllers/auth_controller.dart';
 import 'package:reddit_application/features/home/drawers/community_list_drawer.dart';
 import 'package:reddit_application/features/home/drawers/profile_drawer.dart';
@@ -12,12 +13,11 @@ import '../delegates/search_community_delegate.dart';
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
-    @override
+  @override
   ConsumerState<ConsumerStatefulWidget> createState() => _HomeScreenState();
-
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen>{
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   int _activePage = 0;
 
   void displayDrawer(BuildContext ctx) {
@@ -28,15 +28,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen>{
     Scaffold.of(ctx).openEndDrawer();
   }
 
-  void onPageChanged(int page){
-  setState(() {
-    _activePage = page;
-  });
+  void onPageChanged(int page) {
+    setState(() {
+      _activePage = page;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+  
     final user = ref.watch(userProvider)!;
+    final isGuest = !user.isAuthenticated;
     final currentTheme = ref.watch(themeNotifierProvider);
 
     return Scaffold(
@@ -69,19 +71,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen>{
         ],
       ),
       drawer: const CommunityListDrawer(),
-      endDrawer: const ProfileDrawer(),
-      bottomNavigationBar: CupertinoTabBar(
-          onTap: onPageChanged,
-          activeColor: currentTheme.iconTheme.color,
-          backgroundColor: currentTheme.backgroundColor,
-          currentIndex: _activePage,
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
-            BottomNavigationBarItem(icon: Icon(Icons.add), label: ''),
-          ]),
+      endDrawer: isGuest ? null : const ProfileDrawer(),
+      bottomNavigationBar: isGuest
+          ? null
+          : CupertinoTabBar(
+              onTap: onPageChanged,
+              activeColor: currentTheme.iconTheme.color,
+              backgroundColor: currentTheme.backgroundColor,
+              currentIndex: _activePage,
+              items: const [
+                  BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
+                  BottomNavigationBarItem(icon: Icon(Icons.add), label: ''),
+                ]),
       body: Constants.tabWidgets[_activePage],
     );
   }
-  
-
 }
