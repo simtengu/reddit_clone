@@ -77,9 +77,10 @@ class CommunityRepo {
   }
 
   Stream<Community> getCommunityByName(String name) {
-    return _communities.doc(name).snapshots().map(
+    return _communities.where('name', isEqualTo: name).snapshots().map(
       (event) {
-        return Community.fromMap(event.data() as Map<String, dynamic>);
+        final community = event.docs[0].data();
+        return Community.fromMap(community as Map<String, dynamic>);
       },
     );
   }
@@ -118,13 +119,17 @@ class CommunityRepo {
 
   FutureVoid addMods(String communityName, List<String> uids) async {
     try {
-      return right(_communities.doc(communityName).update({"mods":uids}));
-    } on FirebaseException catch (e) { 
+      return right(_communities.doc(communityName).update({"mods": uids}));
+    } on FirebaseException catch (e) {
       throw e.message!;
     } catch (e) {
       return left(Failure(e.toString()));
     }
   }
 
-
+  Stream<List<Community>> getAllCommunities() {
+    return _communities.snapshots().map((event) => event.docs
+        .map((e) => Community.fromMap(e.data() as Map<String, dynamic>))
+        .toList());
+  }
 }

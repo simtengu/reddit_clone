@@ -146,6 +146,20 @@ Future<Post> fetchPost(String postId) async {
 }
 
 
+Future<QuerySnapshot<Object?>> fetchCommunityPosts(String commName)  {
+    try {
+    return _posts.where('communityName', isEqualTo: commName).get();   
+  } on FirebaseException catch(e){
+    throw Exception(e.message);
+
+  }
+   catch (e) {
+    throw e.toString();
+    
+  }
+}
+
+
 
 Stream<Post> getPostById(String postId){
     return _posts.doc(postId).snapshots().map((event) => Post.fromMap(event.data() as Map<String,dynamic>));

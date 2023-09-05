@@ -1,7 +1,9 @@
 import 'package:any_link_preview/any_link_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:reddit_application/features/community/screens/community_screen.dart';
 import 'package:reddit_application/features/posts/controllers/posts_controller.dart';
+import 'package:reddit_application/features/user_profile/screens/edit_profile_screen.dart';
 import 'package:routemaster/routemaster.dart';
 import '../../../core/common/error_text.dart';
 import '../../../core/common/loader.dart';
@@ -14,7 +16,7 @@ class UserProfileScreen extends ConsumerWidget {
   const UserProfileScreen({super.key, required this.uid});
 
   void navigateToEditProfile(BuildContext context) {
-    Routemaster.of(context).push('/edit-profile/$uid');
+    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>EditProfileScreen(uid: uid,)));
   }
 
   void deletePost(BuildContext context, WidgetRef ref, Post post) {
@@ -22,7 +24,8 @@ class UserProfileScreen extends ConsumerWidget {
   }
 
   void navigateToCommunity(BuildContext context, String communityName) {
-    Routemaster.of(context).push('/r/$communityName');
+    
+    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>CommunityScreen(name: communityName ,)));
   }
 
   @override
@@ -57,15 +60,15 @@ class UserProfileScreen extends ConsumerWidget {
                       Container(
                         alignment: Alignment.bottomLeft,
                         padding: const EdgeInsets.all(20),
-                        child: OutlinedButton(
+                        child: TextButton.icon(
                           onPressed: () => navigateToEditProfile(context),
-                          style: OutlinedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            padding: const EdgeInsets.symmetric(horizontal: 25),
+                          icon: const Icon(Icons.edit_square),
+                          style: TextButton.styleFrom(
+                              foregroundColor: Colors.white54),
+                          label: const Text(
+                            'Edit Profile',
+                            style: TextStyle(fontSize: 18),
                           ),
-                          child: const Text('Edit Profile'),
                         ),
                       ),
                     ],
@@ -109,7 +112,8 @@ class UserProfileScreen extends ConsumerWidget {
                       final post = posts[index];
 
                       return Container(
-                        padding: const EdgeInsets.all(0).copyWith(bottom: 30),
+                        padding: const EdgeInsets.all(0)
+                            .copyWith(bottom: 30, left: 5, right: 5),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [

@@ -6,9 +6,11 @@ import 'package:reddit_application/core/common/loader.dart';
 import 'package:reddit_application/core/constants/constants.dart';
 import 'package:reddit_application/features/auth/controllers/auth_controller.dart';
 import 'package:reddit_application/features/community/controllers/community_controller.dart';
+import 'package:reddit_application/features/community/screens/community_screen.dart';
 import 'package:reddit_application/features/posts/controllers/posts_controller.dart';
+import 'package:reddit_application/features/posts/screens/comment_screen.dart';
+import 'package:reddit_application/features/user_profile/screens/user_profile_screen.dart';
 import 'package:reddit_application/theme/pallete.dart';
-import 'package:routemaster/routemaster.dart';
 import 'package:transparent_image/transparent_image.dart';
 import '../../models/post_model.dart';
 
@@ -66,15 +68,27 @@ class PostCard extends ConsumerWidget {
   }
 
   void navigateToUser(BuildContext context) {
-    Routemaster.of(context).push('/u/${post.uid}');
+  
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => UserProfileScreen(
+              uid: post.uid,
+            )));
   }
 
   void navigateToCommunity(BuildContext context) {
-    Routemaster.of(context).push('/r/${post.communityName}');
+
+       Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => CommunityScreen(
+              name: post.communityName,
+            )));
   }
 
   void navigateToComments(BuildContext context) {
-    Routemaster.of(context).push('/post/${post.id}/comments');
+  
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => CommentScreen(
+              postId: post.id,
+            )));
   }
 
   @override
@@ -261,14 +275,16 @@ class PostCard extends ConsumerWidget {
                                 const Spacer(),
                                 Row(
                                   children: [
-                                    IconButton(
-                                      onPressed: () =>
-                                          navigateToComments(context),
-                                      icon: const Icon(
-                                        Icons.comment,
-                                        size: 21,
-                                      ),
-                                    ),
+                                    Builder(builder: (context) {
+                                      return IconButton(
+                                        onPressed: () =>
+                                            navigateToComments(context),
+                                        icon: const Icon(
+                                          Icons.comment,
+                                          size: 21,
+                                        ),
+                                      );
+                                    }),
                                     Text(
                                       '${post.commentCount}',
                                       style: const TextStyle(fontSize: 17),

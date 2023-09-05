@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reddit_application/features/auth/controllers/auth_controller.dart';
+import 'package:reddit_application/features/user_profile/screens/user_profile_screen.dart';
 import 'package:reddit_application/theme/pallete.dart';
-import 'package:routemaster/routemaster.dart';
 
 class ProfileDrawer extends ConsumerWidget {
   const ProfileDrawer({super.key});
@@ -12,7 +12,8 @@ class ProfileDrawer extends ConsumerWidget {
   }
 
   void navigateToUserProfile(BuildContext context, String userId) {
-    Routemaster.of(context).push("/u/$userId");
+   
+    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>UserProfileScreen(uid: userId,)));
   }
 
   void toggleTheme(WidgetRef ref) {

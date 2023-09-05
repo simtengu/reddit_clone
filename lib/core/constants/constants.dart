@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reddit_application/features/community/screens/communities_screen.dart';
 import 'package:reddit_application/features/posts/screens/add_post.dart';
 import 'package:reddit_application/features/posts/screens/feed_screen.dart';
 
@@ -17,6 +18,7 @@ class Constants {
   static const tabWidgets = [
     FeedScreen(),
     AddPostScreen(),
+    CommunitiesScreen(),
   ];
 
   static const IconData up =

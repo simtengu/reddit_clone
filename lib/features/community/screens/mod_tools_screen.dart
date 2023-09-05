@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:routemaster/routemaster.dart';
+import 'package:reddit_application/features/community/screens/add_mods_screen.dart';
+import 'package:reddit_application/features/community/screens/edit_community_screen.dart';
+
 
 class ModToolsScreen extends StatelessWidget {
   const ModToolsScreen({super.key, required this.name});
   final String name;
 
   void goToEditCommunity(BuildContext context) {
-    Routemaster.of(context).push('/edit-community/$name');
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => EditCommunityScreen(name: name)));
   }
 
   void goToAddCommunityModerator(BuildContext context) {
-    Routemaster.of(context).push('/add-mods/$name');
+    
+     Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => AddModsScreen(name: name)));
   }
 
   @override

@@ -84,7 +84,9 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
             actions: [
               TextButton(
                 child: const Text('OK'),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
             ],
           );
@@ -102,12 +104,12 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
     final isTypeLink = widget.type == "link";
     return Scaffold(
       appBar: AppBar(
-        title: Text('Post ${widget.type}'),
-        centerTitle: true,
+        // title: Text('Post ${widget.type}'),
+        // centerTitle: true,
         actions: [
           TextButton(
             onPressed: sharePost,
-            child: const Text("Post"),
+            child: const Text("Publish"),
           ),
         ],
       ),

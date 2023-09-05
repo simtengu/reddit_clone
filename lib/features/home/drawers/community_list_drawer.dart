@@ -4,7 +4,8 @@ import 'package:reddit_application/core/common/error_text.dart';
 import 'package:reddit_application/core/common/loader.dart';
 import 'package:reddit_application/core/common/sign_in_button.dart';
 import 'package:reddit_application/features/community/controllers/community_controller.dart';
-import 'package:routemaster/routemaster.dart';
+import 'package:reddit_application/features/community/screens/community_screen.dart';
+import 'package:reddit_application/features/community/screens/create_screen.dart';
 
 import '../../auth/controllers/auth_controller.dart';
 
@@ -13,12 +14,15 @@ class CommunityListDrawer extends ConsumerWidget {
 
   void navigateToCreateCommunity(BuildContext context) {
     Scaffold.of(context).closeDrawer();
-    Routemaster.of(context).push('/create-community');
+   
+     Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => const CreateCommunityScreen()));
   }
 
   void navigateToCommunity(BuildContext context, String community) {
     Scaffold.of(context).closeDrawer();
-    Routemaster.of(context).push('/r/$community');
+     Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => CommunityScreen(name: community)));
   }
 
   @override

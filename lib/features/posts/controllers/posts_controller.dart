@@ -44,6 +44,12 @@ final guestPostsProvider = StreamProvider((ref) {
   return postController.fetchGuestPosts();
 });
 
+final getCommunityPostsProvider =
+    FutureProvider.family((ref, String commName) async {
+  final postController = ref.watch(postsControllerProvider.notifier);
+  return postController.fetchCommunityPosts(commName);
+});
+
 final getPostByIdProvider = StreamProvider.family((ref, String postId) {
   final postController = ref.watch(postsControllerProvider.notifier);
   return postController.getPostById(postId);
@@ -189,14 +195,10 @@ class PostsController extends StateNotifier<bool> {
     return Stream.value([]);
   }
 
-
   Stream<List<Post>> fetchGuestPosts() {
-   
-      return _postsRepo.fetchGuestPosts();
-    
-
-  
+    return _postsRepo.fetchGuestPosts();
   }
+
 //delete the post..................
   void deletePost(BuildContext context, Post post) async {
     final res = await _postsRepo.deletePost(post);
@@ -257,16 +259,27 @@ class PostsController extends StateNotifier<bool> {
     return _postsRepo.getPostComments(postId);
   }
 
-
-  void awardPost({ required Post post, required String award, required BuildContext context}) async {
+  void awardPost(
+      {required Post post,
+      required String award,
+      required BuildContext context}) async {
     final senderId = _ref.read(userProvider)!.uid;
 
-   final res =  await _postsRepo.awardPost(post, award, senderId);
-   res.fold((l) => showSnackBar(context,l.message), (r){
-    _ref.read(userProfileControllerProvider.notifier).updateUserKarma(UserKarma.awardPost);
-    
-  Routemaster.of(context).pop();
-   });
+    final res = await _postsRepo.awardPost(post, award, senderId);
+    res.fold((l) => showSnackBar(context, l.message), (r) {
+      _ref
+          .read(userProfileControllerProvider.notifier)
+          .updateUserKarma(UserKarma.awardPost);
 
+      Routemaster.of(context).pop();
+    });
+  }
+
+  Future<List<Post>> fetchCommunityPosts(String commName) async {
+    final postSnapshots = await _postsRepo.fetchCommunityPosts(commName);
+    List<Post> posts = postSnapshots.docs
+        .map((doc) => Post.fromMap(doc.data() as Map<String, dynamic>))
+        .toList();
+    return posts;
   }
 }

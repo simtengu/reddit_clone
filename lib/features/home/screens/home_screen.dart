@@ -4,11 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reddit_application/core/constants/constants.dart';
 import 'package:reddit_application/core/providers/firebase_providers.dart';
 import 'package:reddit_application/features/auth/controllers/auth_controller.dart';
+import 'package:reddit_application/features/community/screens/community_search.dart';
 import 'package:reddit_application/features/home/drawers/community_list_drawer.dart';
 import 'package:reddit_application/features/home/drawers/profile_drawer.dart';
 import 'package:reddit_application/theme/pallete.dart';
-
-import '../delegates/search_community_delegate.dart';
+import 'package:routemaster/routemaster.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -36,14 +36,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-  
     final user = ref.watch(userProvider)!;
     final isGuest = !user.isAuthenticated;
     final currentTheme = ref.watch(themeNotifierProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home"),
         centerTitle: false,
         leading: Builder(builder: (context) {
           return IconButton(
@@ -54,8 +52,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         actions: [
           IconButton(
               onPressed: () {
-                showSearch(
-                    context: context, delegate: SearchCommunityDelegate(ref));
+              
+
+           Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const CommunitySearchScreen()));
               },
               icon: const Icon(Icons.search)),
           Builder(builder: (context) {
@@ -82,6 +81,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               items: const [
                   BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
                   BottomNavigationBarItem(icon: Icon(Icons.add), label: ''),
+                  BottomNavigationBarItem(icon: Icon(Icons.group), label: ''),
                 ]),
       body: Constants.tabWidgets[_activePage],
     );

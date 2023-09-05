@@ -50,7 +50,7 @@ class _MyAppState extends ConsumerState<MyApp> {
             debugShowCheckedModeBanner: false,
             theme: ref.watch(themeNotifierProvider),
             routerDelegate: RoutemasterDelegate(routesBuilder: (context) {
-              print('fetched data $data');
+            
               if (data != null) {
                 // getData(ref, data);
 

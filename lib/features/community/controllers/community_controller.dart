@@ -19,6 +19,11 @@ final userCommunitiesProvider = StreamProvider((ref) {
   return communityController.getUserCommunities();
 });
 
+final getAllCommunitiesProvider = StreamProvider((ref) {
+  final communityController = ref.watch(communityControllerProvider.notifier);
+  return communityController.getAllCommunities();
+});
+
 final getCommunityByNameProvider = StreamProvider.family((ref, String name) {
   final communityController = ref.watch(communityControllerProvider.notifier);
 
@@ -111,7 +116,6 @@ class CommunityController extends StateNotifier<bool> {
         (r) => Routemaster.of(context).pop());
   }
 
-
   void joinOrLeaveCommunity(Community community, BuildContext context) async {
     final user = _ref.read(userProvider)!;
     Either<Failure, void> res;
@@ -134,15 +138,16 @@ class CommunityController extends StateNotifier<bool> {
     return _communityRepo.searchCommunity(query);
   }
 
-  
-   addMods(String communityName, List<String> uids,BuildContext context) async {
-     final rs = await _communityRepo.addMods(communityName, uids);
+  addMods(String communityName, List<String> uids, BuildContext context) async {
+    final rs = await _communityRepo.addMods(communityName, uids);
 
-     rs.fold((l) => showSnackBar(context,l.message), (r){
+    rs.fold((l) => showSnackBar(context, l.message), (r) {
       showSnackBar(context, 'Community moderators list updated');
-       Routemaster.of(context).pop();
-     } );
+      Routemaster.of(context).pop();
+    });
   }
 
-
+  Stream<List<Community>> getAllCommunities() {
+    return _communityRepo.getAllCommunities();
+  }
 }
